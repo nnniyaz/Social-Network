@@ -1,3 +1,4 @@
+import Footer from 'components/Footer/Footer';
 import { Outlet } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header/Header';
@@ -9,6 +10,7 @@ function App() {
       <div className='content'>
         <Outlet />
       </div>
+      <Footer />
     </div>
   );
 }
