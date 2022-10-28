@@ -20,6 +20,6 @@ body {
 
 .content {
   width: 100%;
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 70px - 50px);
   margin-top: 70px;
 }

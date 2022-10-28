@@ -1,0 +1,138 @@
+.main {
+    width: 100%;
+    min-height: calc(100vh - 70px - 50px);
+    display: flex;
+    justify-content: center;
+
+    .main__container {
+        width: 100%;
+        max-width: 600px;
+        padding: 0 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .tabbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+            .sidebar {
+                min-width: 30%;
+                min-height: calc(100vh - 70px - 50px - 40px);
+                display: flex;
+                flex-direction: column;
+                border-right: 1px solid #c1c1c1;
+
+                .tab {
+                    all: unset;
+                    padding: 15px 10px;
+                    margin-right: 10px;
+                    border-radius: 10px;
+                    font-size: 18px;
+                    font-weight: 500;
+                    margin-bottom: 5px;
+                    cursor: pointer;
+                    transition: all 0.2s ease-in-out;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    &:hover {
+                        background-color: #e6e4e4;
+                    }
+                }
+
+                .tab__active {
+                    all: unset;
+                    padding: 15px 10px;
+                    margin-right: 10px;
+                    border-radius: 10px;
+                    font-size: 18px;
+                    font-weight: 500;
+                    color: rgb(50, 50, 217);
+                    background-color: #ececec;
+                    margin-bottom: 5px;
+                    cursor: pointer;
+                    transition: all 0.2s ease-in-out;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+
+            .tabpanel {
+                width: 70%;
+                padding: 15px 40px;
+
+                .content {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+
+                    .email {
+                        display: flex;
+                        flex-direction: column;
+                        margin-bottom: 30px;
+
+                        .email__text {
+                            font-size: 16px;
+                            font-weight: 600;
+                            color: #262626;
+                            margin-bottom: 10px;
+                        }
+
+                        .email__main {
+                            font-size: 18px;
+                            font-weight: 600;
+                        }
+                    }
+
+                    .labelWrapper {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        margin-bottom: 20px;
+
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+
+                        .label {
+                            font-size: 16px;
+                            font-weight: 600;
+                            color: #262626;
+                            margin-bottom: 10px;
+                        }
+
+                        .input {
+                            width: 100%;
+                            height: 40px;
+                            border: 1px solid #dbdbdb;
+                            border-radius: 5px;
+                            padding: 10px;
+                            font-size: 16px;
+                            color: #262626;
+                            margin-bottom: 10px;
+
+                            &:last-child {
+                                margin-bottom: 0;
+                            }
+                        }
+                    }
+
+                    .footer__btn {
+                        width: 100%;
+                        display: flex;
+                        justify-content: flex-end;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -61,16 +61,6 @@ const ProfileEdit = () => {
                         />
                     </label>
                     <label className={classes.labelWrapper}>
-                        <div className={classes.label}>Email</div>
-                        <input
-                            value={user.email}
-                            onChange={(e) => setUser({ ...user, email: e.target.value })}
-                            placeholder="Email"
-                            className={classes.input}
-                            type={'text'}
-                        />
-                    </label>
-                    <label className={classes.labelWrapper}>
                         <div className={classes.label}>Username</div>
                         <input
                             value={user.nickname}
