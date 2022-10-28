@@ -1,0 +1,69 @@
+.post__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    margin-bottom: 20px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .post__content__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .post__content__user {
+            display: flex;
+            align-items: center;
+
+            .post__content__avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 1px solid #dbdbdb;
+                margin-right: 10px;
+                background-color: #3d3d3d;
+            }
+
+            .post__content__username {
+                display: flex;
+                flex-direction: column;
+
+                .post__content__username__name {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #262626;
+                }
+
+                .post__content__username__nickname {
+                    font-size: 14px;
+                    color: #8e8e8e;
+                }
+            }
+        }
+
+        .post__content__time {
+            font-size: 14px;
+            color: rgba(0, 0, 0, .5);
+        }
+    }
+
+    .post__content__paragraph {
+        font-size: 15px;
+        color: #262626;
+        margin: 10px 0;
+    }
+
+    .post__content__date {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        font-size: 14px;
+        color: rgba(0, 0, 0, .5);
+    }
+}

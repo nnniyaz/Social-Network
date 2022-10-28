@@ -1,0 +1,24 @@
+.btn {
+    width: 100px;
+    height: 36px;
+    border: 2px solid #000;
+    color: black;
+    border-radius: 8px;
+    display: flex;
+    font-size: 16px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    transition: .1s linear;
+    cursor: pointer;
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    &:hover {
+        background-color: rgb(214, 214, 214);
+        opacity: .8;
+        transition: .1s linear;
+    }
+}
