@@ -6,6 +6,8 @@ import Feed from './components/Pages/Feed/Feed';
 import Profile from 'components/Pages/Profile/Porfile';
 import ProfileEdit from 'components/Pages/ProfileEdit/ProfileEdit';
 import Settings from 'components/Pages/Settings/Settings';
+import Login from 'components/Pages/Login/Login';
+import Registration from 'components/Pages/Registration/Registration';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -14,9 +16,12 @@ root.render(
       <Routes>
         <Route element={<App />}>
           <Route path='/' element={<Feed />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/edit" element={<ProfileEdit />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="profile/edit" element={<ProfileEdit />} />
+          <Route path="settings" element={<Settings />} />
+
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Registration />} />
         </Route>
       </Routes>
     </BrowserRouter>

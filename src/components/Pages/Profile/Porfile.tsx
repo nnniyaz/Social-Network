@@ -64,18 +64,17 @@ const Profile = () => {
 
         const currentDate = new Date();
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        const time = `${currentDate.getHours()}:${currentDate.getMinutes()}`;
+        const time = `${currentDate.getHours() < 10 ? '0' + currentDate.getHours() : currentDate.getHours()}:${currentDate.getMinutes() < 10 ? '0' + currentDate.getMinutes() : currentDate.getMinutes()}`;
         const date = `${months[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
-        const colors = ['black', 'white', 'orange', 'blue', 'red', 'green', 'purple', 'yellow'];
 
         const newPost: PostInterface = {
             id: userPosts.length + 1,
-            username: 'Нияз Насыров',
-            nickname: '@nnniyaz',
+            username: user.firstName + ' ' + user.lastName,
+            nickname: user.nickname,
             time: time,
             date: date,
             paragraph: text,
-            color: colors[Math.floor(Math.random() * colors.length)]
+            color: user.color
         }
 
         setUserPosts([newPost, ...userPosts]);
