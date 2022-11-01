@@ -1,18 +1,23 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import classes from './Login.module.scss';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [data, setData] = useState({
         email: '',
         password: '',
     });
 
+    const login = () => {
+        navigate('/');
+    }
+
     return (
         <div className={classes.main}>
             <div className={classes.main__container}>
                 <div className={classes.title}>Login</div>
-                <form>
+                <form onSubmit={() => login()}>
                     <input
                         value={data.email}
                         onChange={(e) => setData({ ...data, email: e.target.value })}
