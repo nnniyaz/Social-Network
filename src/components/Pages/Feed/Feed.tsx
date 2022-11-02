@@ -1,3 +1,4 @@
+import CreatePost from 'components/UI/CreatePost/CreatePost';
 import Posts from 'components/UI/Posts/Posts';
 import { PostInterface } from 'context';
 import { useMemo } from 'react';
@@ -85,17 +86,7 @@ const Feed = () => {
                         onChange={(e: any) => setSearchQuery(e.target.value)}
                     />
 
-                    <div className={classes.create__block}>
-                        <textarea
-                            value={text}
-                            onChange={(e: any) => setText(e.target.value)}
-                            className={classes.create__block__textarea}
-                            placeholder={'New post...'}
-                        />
-                        <div className={classes.button}>
-                            <button className={classes.create__block__btn} onClick={() => createdPost()}>Create post</button>
-                        </div>
-                    </div>
+                    <CreatePost text={text} setText={setText} createdPost={createdPost} />
                 </div>
 
                 <Posts

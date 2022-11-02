@@ -67,13 +67,23 @@
                 }
             }
         }
+        }
+        }
+    
+        @media only screen and (max-width: 600px) {
+            .main {
+                min-height: calc(100vh - 50px - 50px);
+    
+                .main__feed {
+                    max-width: 100%;
+                    padding: 0 10px;
+    
+                    .main__feed__header {
 
-        .main__feed__body {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 0;
+                .create__block {
+                        margin-top: 10px;
+                    }
+                }
         }
     }
 }

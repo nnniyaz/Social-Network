@@ -117,5 +117,27 @@
                 }
             }
         }
+   }
+}
+@media only screen and (max-width: 600px) {
+    .main {
+        .main__container {
+            padding: 0 10px;
+
+            .profile__block {
+                margin-bottom: 10px;
+
+                .profile__block__info__main {
+                    .bio {
+                        flex-direction: column;
+                        align-items: flex-start;
+
+                        .registration__date {
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
