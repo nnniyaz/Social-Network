@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import classes from './Registration.module.scss';
 import { cities as citiesList } from 'countriesWithCities';
+import {Context} from "../../../index";
 
 interface UserData {
     firstName: string,
@@ -36,23 +37,29 @@ const Registration = () => {
 
     const cities: { [key: string]: string[] } = citiesList;
 
+    const {store} = useContext(Context);
+
     const signup = (e: React.FormEvent) => {
         // navigate('/');
         e.preventDefault();
 
         if (!isValid) {
             setErrors({
-                country: data.country === '' ? true : false,
-                city: data.city === '' ? true : false,
-                password: data.password !== data.confirmPassword ? true : false,
+                country: data.country === '',
+                city: data.city === '',
+                password: data.password !== data.confirmPassword,
             });
             return;
         }
-        console.log(data)
+        store.registration(data.firstName, data.lastName, data.email, data.password, data.country, data.city).then(() => {
+            navigate('/login');
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 
     useEffect(() => {
-        setIsValid((data.country && data.city && (data.password === data.confirmPassword)) ? true : false);
+        setIsValid(!!(data.country && data.city && (data.password === data.confirmPassword)));
     }, [data]);
 
     return (
@@ -68,6 +75,7 @@ const Registration = () => {
                             type="text"
                             placeholder="First Name"
                             style={{ width: '48%' }}
+                            minLength={3}
                             required
                         />
                         <input
@@ -77,6 +85,7 @@ const Registration = () => {
                             type="text"
                             placeholder="Last Name"
                             style={{ width: '48%' }}
+                            minLength={3}
                             required
                         />
                     </div>
@@ -132,7 +141,7 @@ const Registration = () => {
                                     }
                                 }}
                                 value={{ value: data.city ? data.city : cities[Object.keys(cities)[0]][0], label: data.city ? data.city : cities[Object.keys(cities)[0]][0] }}
-                                options={data.country ? cities[Object.keys(cities)[0]].map((city: string) => ({ value: city, label: city })) : []}
+                                options={data.country ? cities[data.country].map((city: string) => ({ value: city, label: city })) : []}
                                 placeholder="City"
                                 styles={{
                                     control: (provided, state) => ({

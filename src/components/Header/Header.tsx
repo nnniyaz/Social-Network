@@ -1,26 +1,27 @@
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import classes from './Header.module.scss';
+import {useContext, useState} from "react";
+import {Context} from "../../index";
+import {observer} from "mobx-react-lite";
+import Modal from "../UI/Modal/Modal";
 
-const setActive = ({ isActive }: any) => isActive ? classes.nav__item__active : classes.nav__item
+const setActive = ({isActive}: any) => isActive ? classes.nav__item__active : classes.nav__item
 
 const Header = () => {
-    const navigate = useNavigate();
-    const logout = () => {
-        navigate('/login');
-    }
+    const {store} = useContext(Context);
 
-    const location = useLocation();
+    const [visible, setVisible] = useState<boolean>(false);
 
     return (
         <div className={classes.header}>
-            <div className={classes.title}>BLOG</div>
+            <div className={classes.title}>QAUYM</div>
             {
-                location.pathname !== '/login' && location.pathname !== '/signup' ? (
+                store.isAuth ? (
                     <div className={classes.nav}>
                         <NavLink to={'/'} className={setActive} end>Feed</NavLink>
                         <NavLink to={'profile'} className={setActive}>Profile</NavLink>
                         <NavLink to={'settings'} className={setActive}>Settings</NavLink>
-                        <div className={classes.nav__item} onClick={() => logout()}>Logout</div>
+                        <div className={classes.nav__item} onClick={() => setVisible(true)}>Logout</div>
                     </div>
                 ) : (
                     <div className={classes.nav}>
@@ -29,8 +30,25 @@ const Header = () => {
                     </div>
                 )
             }
-        </div >
+
+            <Modal visible={visible} setVisible={setVisible}>
+                <div className={classes.modal__inner__block}>
+                    <h2>Are you sure you want to logout?</h2>
+                    <div className={classes.modal__inner__block__row}>
+                        <button className={classes.modal__inner__block__btn} onClick={() => setVisible(false)}>
+                            Cancel
+                        </button>
+                        <button className={classes.modal__inner__block__btn} onClick={() => {
+                            store.logout()
+                            setVisible(false)
+                        }}>
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+            </Modal>
+        </div>
     );
 }
 
-export default Header;
+export default observer(Header);
