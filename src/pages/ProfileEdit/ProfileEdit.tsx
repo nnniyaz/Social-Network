@@ -1,23 +1,25 @@
 import Button from 'components/UI/Button/Button';
-import { UserInterface } from 'context';
-import { useState } from 'react';
+import {useContext, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classes from './ProfileEdit.module.scss';
+import {IUser} from "../../models/IUser";
+import {Context} from "../../index";
 
 const ProfileEdit = () => {
     const [onMouseEnter, setOnMouseEnter] = useState(false);
     const navigate = useNavigate();
-    const [user, setUser] = useState<UserInterface>(
+    const {store} = useContext(Context);
+    const [user, setUser] = useState<IUser>(
         {
-            id: 0,
-            firstName: 'Нияз',
-            lastName: 'Насыров',
-            email: 'niyaz@gmail.com',
-            createdAt: 'October 29, 2022',
-            country: 'Kazakhstan',
-            city: 'Almaty',
-            nickname: 'nnniyaz',
-            color: 'black',
+            id: store.user.id,
+            isActivated: store.user.isActivated,
+            email: store.user.email,
+            roles: store.user.roles,
+            firstName: store.user.firstName,
+            lastName: store.user.lastName,
+            country: store.user.country,
+            city: store.user.city,
+            createdAt: store.user.createdAt,
         }
     );
 
@@ -57,16 +59,6 @@ const ProfileEdit = () => {
                             value={user.lastName}
                             onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                             placeholder="Last Name"
-                            className={classes.input}
-                            type={'text'}
-                        />
-                    </label>
-                    <label className={classes.labelWrapper}>
-                        <div className={classes.label}>Username</div>
-                        <input
-                            value={user.nickname}
-                            onChange={(e) => setUser({ ...user, nickname: e.target.value })}
-                            placeholder="Username"
                             className={classes.input}
                             type={'text'}
                         />

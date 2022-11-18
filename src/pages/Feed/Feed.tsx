@@ -1,10 +1,10 @@
 import CreatePost from 'components/UI/CreatePost/CreatePost';
 import Posts from 'components/UI/Posts/Posts';
-import { PostInterface } from 'context';
-import { useMemo } from 'react';
-import { useState } from 'react';
-import PostComponent from '../../UI/Post/PostComponent';
-import SearchBar from '../../UI/SearchBar/SearchBar';
+import {PostInterface} from 'context';
+import {useMemo} from 'react';
+import {useState} from 'react';
+import Post from '../../components/UI/Post/Post';
+import SearchBar from '../../components/UI/SearchBar/SearchBar';
 import classes from './Feed.module.scss';
 
 const Feed = () => {
@@ -16,7 +16,6 @@ const Feed = () => {
             time: '21:59',
             date: 'October 14, 2022',
             paragraph: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum.',
-            color: 'black'
         },
         {
             id: 2,
@@ -25,7 +24,6 @@ const Feed = () => {
             time: '21:59',
             date: 'October 14, 2022',
             paragraph: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum.',
-            color: 'white'
         },
         {
             id: 3,
@@ -34,7 +32,6 @@ const Feed = () => {
             time: '21:59',
             date: 'October 14, 2022',
             paragraph: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum.',
-            color: 'orange'
         },
         {
             id: 4,
@@ -43,7 +40,6 @@ const Feed = () => {
             time: '21:59',
             date: 'October 14, 2022',
             paragraph: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum.',
-            color: 'blue'
         },
     ]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -61,7 +57,6 @@ const Feed = () => {
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         const time = `${new Date().getHours()} : ${new Date().getMinutes()}`;
         const date = `${months[new Date().getMonth()]} ${new Date().getDate()}, ${new Date().getFullYear()}`;
-        const colors = ['black', 'white', 'orange', 'blue', 'red', 'green', 'purple', 'yellow'];
 
         const newPost: PostInterface = {
             id: posts.length + 1,
@@ -70,7 +65,6 @@ const Feed = () => {
             time: time,
             date: date,
             paragraph: text,
-            color: colors[Math.floor(Math.random() * colors.length)]
         }
 
         setPosts([newPost, ...posts]);
@@ -80,14 +74,12 @@ const Feed = () => {
     return (
         <div className={classes.main}>
             <div className={classes.main__feed}>
-                <div className={classes.main__feed__header}>
-                    <SearchBar
-                        value={searchQuery}
-                        onChange={(e: any) => setSearchQuery(e.target.value)}
-                    />
+                <SearchBar
+                    value={searchQuery}
+                    onChange={(e: any) => setSearchQuery(e.target.value)}
+                />
 
-                    <CreatePost text={text} setText={setText} createdPost={createdPost} />
-                </div>
+                <CreatePost text={text} setText={setText} createdPost={createdPost}/>
 
                 <Posts
                     searchedPosts={searchedPosts}

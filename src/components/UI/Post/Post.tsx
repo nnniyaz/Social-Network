@@ -5,12 +5,12 @@ interface Props {
     post: PostInterface;
 }
 
-const PostComponent = ({ post }: Props) => {
+const Post = ({ post }: Props) => {
     return (
         <div className={classes.post__content}>
             <div className={classes.post__content__header}>
                 <div className={classes.post__content__user}>
-                    <div className={classes.post__content__avatar} style={{ backgroundColor: post.color }}></div>
+                    <div className={classes.post__content__avatar} style={{ backgroundColor: 'black' }}></div>
                     <div className={classes.post__content__username}>
                         <div className={classes.post__content__username__name}>{post.username}</div>
                         <div className={classes.post__content__username__nickname}>{`@${post.nickname}`}</div>
@@ -24,4 +24,4 @@ const PostComponent = ({ post }: Props) => {
     );
 }
 
-export default PostComponent;
+export default Post;

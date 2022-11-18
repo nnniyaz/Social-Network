@@ -1,5 +1,5 @@
 import { PostInterface } from 'context';
-import PostComponent from '../Post/PostComponent';
+import Post from '../Post/Post';
 import classes from './Posts.module.scss';
 
 interface Props {
@@ -12,7 +12,7 @@ const Posts = ({ searchedPosts }: Props) => {
         <div className={classes.main__feed__body}>
             {
                 searchedPosts.map(post => (
-                    <PostComponent key={post.id} post={post} />
+                    <Post key={post.id} post={post} />
                 ))
             }
         </div>

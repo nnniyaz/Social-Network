@@ -1,7 +1,7 @@
 import {useContext, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classes from './Login.module.scss';
-import {Context} from "../../../index";
+import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 
 const Login = () => {

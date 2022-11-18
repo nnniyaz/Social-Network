@@ -1,5 +1,4 @@
 import {AxiosResponse} from "axios";
-import {AuthResponse} from "../models/response/AuthResponse";
 import $api from "../http";
 import {IUser} from "../models/IUser";
 

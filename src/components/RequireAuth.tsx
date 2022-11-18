@@ -1,17 +1,22 @@
 import React, {useContext, useEffect} from 'react';
 import {Context} from "../index";
-import {Outlet, useNavigate} from "react-router-dom";
+import {Navigate, Outlet, useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
-function RequireAuth() {
-    const naviagte = useNavigate();
+function RequireAuth({children}: { children?: React.ReactNode }) {
     const {store} = useContext(Context);
+
+    if (!store.isAuth) {
+        return (
+            <Navigate to={'/login'} replace />
+        )
+    }
 
     return (
         <>
-            {store.isAuth ? <Outlet/> : naviagte('/login')}
+            {children ? children : <Outlet/>}
         </>
-    );
+    )
 }
 
-export default observer(RequireAuth);
+export default RequireAuth;

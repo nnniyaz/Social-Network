@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import classes from './Registration.module.scss';
 import { cities as citiesList } from 'countriesWithCities';
-import {Context} from "../../../index";
+import {Context} from "../../index";
 
 interface UserData {
     firstName: string,

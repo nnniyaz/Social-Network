@@ -1,0 +1,27 @@
+.main {
+  width: 100%;
+  min-height: calc(100vh - 70px - 50px);
+  display: flex;
+  justify-content: center;
+
+  .main__feed {
+    width: 100%;
+    max-width: 600px;
+    padding: 0 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .main {
+    min-height: calc(100vh - 50px - 50px);
+
+    .main__feed {
+      max-width: 100%;
+      padding: 0 10px;
+    }
+  }
+}

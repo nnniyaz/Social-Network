@@ -1,4 +1,4 @@
-import {NavLink} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import classes from './Header.module.scss';
 import {useContext, useState} from "react";
 import {Context} from "../../index";
@@ -9,8 +9,13 @@ const setActive = ({isActive}: any) => isActive ? classes.nav__item__active : cl
 
 const Header = () => {
     const {store} = useContext(Context);
-
     const [visible, setVisible] = useState<boolean>(false);
+
+    const handleLogout = () => {
+        store.logout();
+        setVisible(false);
+        window.location.href = '/login';
+    }
 
     return (
         <div className={classes.header}>
@@ -38,10 +43,7 @@ const Header = () => {
                         <button className={classes.modal__inner__block__btn} onClick={() => setVisible(false)}>
                             Cancel
                         </button>
-                        <button className={classes.modal__inner__block__btn} onClick={() => {
-                            store.logout()
-                            setVisible(false)
-                        }}>
+                        <button className={classes.modal__inner__block__btn} onClick={handleLogout}>
                             Sign Out
                         </button>
                     </div>
