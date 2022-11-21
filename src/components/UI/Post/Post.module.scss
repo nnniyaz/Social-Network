@@ -46,11 +46,6 @@
                 }
             }
         }
-
-        .post__content__time {
-            font-size: 14px;
-            color: rgba(0, 0, 0, .5);
-        }
     }
 
     .post__content__paragraph {
@@ -59,10 +54,10 @@
         margin: 10px 0;
     }
 
-    .post__content__date {
+    .post__content__published__at {
         width: 100%;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         font-size: 14px;
         color: rgba(0, 0, 0, .5);
     }

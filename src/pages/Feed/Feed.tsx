@@ -1,52 +1,22 @@
 import CreatePost from 'components/UI/CreatePost/CreatePost';
 import Posts from 'components/UI/Posts/Posts';
-import {PostInterface} from 'context';
-import {useMemo} from 'react';
+import {useContext, useEffect, useMemo} from 'react';
 import {useState} from 'react';
-import Post from '../../components/UI/Post/Post';
 import SearchBar from '../../components/UI/SearchBar/SearchBar';
 import classes from './Feed.module.scss';
+import {IPost} from "../../models/IPost";
+import {Context} from "../../index";
 
 const Feed = () => {
-    const [posts, setPosts] = useState<PostInterface[]>([
-        {
-            id: 1,
-            username: 'Нияз Насыров',
-            nickname: 'nnniyaz',
-            time: '21:59',
-            date: 'October 14, 2022',
-            paragraph: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum.',
-        },
-        {
-            id: 2,
-            username: 'Азамат Нурпейсов',
-            nickname: 'pablo',
-            time: '21:59',
-            date: 'October 14, 2022',
-            paragraph: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum.',
-        },
-        {
-            id: 3,
-            username: 'Ахат Мусабаев',
-            nickname: 'improved',
-            time: '21:59',
-            date: 'October 14, 2022',
-            paragraph: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum.',
-        },
-        {
-            id: 4,
-            username: 'Нурсултан Абен',
-            nickname: 'aben',
-            time: '21:59',
-            date: 'October 14, 2022',
-            paragraph: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quam praesentium sit beatae totam nemo odit quibusdam alias eaque tempore molestias voluptatem repellat est at reiciendis, eveniet delectus. Distinctio, illum.',
-        },
-    ]);
+    const {store} = useContext(Context);
+    const [posts, setPosts] = useState<IPost[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [text, setText] = useState('');
 
-    const searchedPosts = useMemo(() => {
-        return [...posts].filter(post => post.username.toLowerCase().includes(searchQuery.toLowerCase()) || post.nickname.toLowerCase().includes(searchQuery.toLowerCase()));
+    const [trigger, setTrigger] = useState(false);
+
+    const searchedPosts: IPost[] = useMemo(() => {
+        return [...posts].filter(post => post.userName.toLowerCase().includes(searchQuery.toLowerCase()));
     }, [searchQuery, posts]);
 
     const createdPost = () => {
@@ -54,22 +24,24 @@ const Feed = () => {
             return;
         }
 
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        const time = `${new Date().getHours()} : ${new Date().getMinutes()}`;
-        const date = `${months[new Date().getMonth()]} ${new Date().getDate()}, ${new Date().getFullYear()}`;
+        const newPost = {
+            userId: store.user.id,
+            text: text,
+        };
 
-        const newPost: PostInterface = {
-            id: posts.length + 1,
-            username: 'Нияз Насыров',
-            nickname: '@nnniyaz',
-            time: time,
-            date: date,
-            paragraph: text,
-        }
+        store.createPost(newPost).then(data => {
+            store.setPosts(store.posts);
+            setTrigger(!trigger);
+        });
 
-        setPosts([newPost, ...posts]);
         setText('');
     }
+
+    useEffect(() => {
+        store.fetchAllPosts().then(() => {
+            setPosts(store.posts);
+        });
+    }, [trigger]);
 
     return (
         <div className={classes.main}>

@@ -1,8 +1,9 @@
-import { PostInterface } from 'context';
 import classes from './Post.module.scss';
+import {IPost} from "../../../models/IPost";
+import {formatDate, formatTime} from "../../../utils/feedUtil";
 
 interface Props {
-    post: PostInterface;
+    post: IPost;
 }
 
 const Post = ({ post }: Props) => {
@@ -12,14 +13,16 @@ const Post = ({ post }: Props) => {
                 <div className={classes.post__content__user}>
                     <div className={classes.post__content__avatar} style={{ backgroundColor: 'black' }}></div>
                     <div className={classes.post__content__username}>
-                        <div className={classes.post__content__username__name}>{post.username}</div>
-                        <div className={classes.post__content__username__nickname}>{`@${post.nickname}`}</div>
+                        <div className={classes.post__content__username__name}>{post.userName}</div>
+                        <div className={classes.post__content__username__nickname}>{post.email}</div>
                     </div>
                 </div>
-                <div className={classes.post__content__time}>{post.time}</div>
             </div>
-            <div className={classes.post__content__paragraph}>{post.paragraph}</div>
-            <div className={classes.post__content__date}>{post.date}</div>
+            <div className={classes.post__content__paragraph}>{post.text}</div>
+            <div className={classes.post__content__published__at}>
+                <div className={classes.post__content__published__at__date}>{formatDate(post.createdAt)}</div>
+                <div className={classes.post__content__published__at__time}>{formatTime(post.createdAt)}</div>
+            </div>
         </div>
     );
 }

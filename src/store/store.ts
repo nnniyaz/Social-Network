@@ -4,15 +4,22 @@ import AuthService from "../services/AuthService";
 import axios from "axios";
 import {AuthResponse} from "../models/response/AuthResponse";
 import {API_URL} from "../http";
+import {IPost} from "../models/IPost";
+import PostService from "../services/PostService";
 
 export default class Store {
     user = {} as IUser;
     isAuth = false;
     isLoading = false;
 
+    posts = [] as IPost[];
+    userPosts = [] as IPost[];
+
     constructor() {
         makeAutoObservable(this);
     }
+
+    // ----------------- AUTH -----------------
 
     setAuth(bool: boolean) {
         this.isAuth = bool;
@@ -74,6 +81,69 @@ export default class Store {
             console.log(e.response?.data?.message);
         } finally {
             this.setLoading(false);
+        }
+    }
+
+    // ----------------- POSTS -----------------
+
+    setPosts(posts: IPost[]) {
+        this.posts = posts;
+    }
+
+    setUserPosts(posts: IPost[]) {
+        this.userPosts = posts;
+    }
+
+    async createPost({userId, text}: { userId: string, text: string }) {
+        try {
+            const response = await PostService.createPost({userId, text});
+            this.setPosts([...this.posts, response.data]);
+            this.setUserPosts([...this.userPosts, response.data]);
+        } catch (e) {
+            // @ts-ignore
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async editPost({postId, text}: { postId: string, text: string }) {
+        try {
+            const response = await PostService.editPost({postId, text});
+            this.setPosts(this.posts.map(p => p._id === response.data._id ? response.data : p));
+            this.setUserPosts(this.userPosts.map(p => p._id === response.data._id ? response.data : p));
+        } catch (e) {
+            // @ts-ignore
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async deletePost(id: string) {
+        try {
+            const response = await PostService.deletePost(id);
+            this.setPosts(this.posts.filter(p => p._id !== id));
+            this.setUserPosts(this.userPosts.filter(p => p._id !== id));
+        } catch (e) {
+            // @ts-ignore
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async fetchUserPosts(userId: string) {
+        try {
+            const response = await PostService.fetchUserPosts(userId);
+            this.setUserPosts(response.data);
+        } catch (e) {
+            // @ts-ignore
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async fetchAllPosts() {
+        try {
+            const response = await PostService.fetchAllPosts();
+            this.setPosts(response.data);
+        } catch (e) {
+            // @ts-ignore
+            console.log(e.response?.data?.message);
         }
     }
 }

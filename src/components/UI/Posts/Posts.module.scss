@@ -5,6 +5,21 @@
     align-items: center;
     padding: 20px 0;
 }
+
+.main__feed__body__empty {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.main__feed__body__empty__text {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #999;
+}
+
 @media only screen and (max-width: 600px) {
     .main__feed__body {
         padding-top: 10px;
