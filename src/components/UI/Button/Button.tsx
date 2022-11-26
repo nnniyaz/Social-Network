@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import classes from './Button.module.scss';
 
 interface Props {
     color: string;
     children: React.ReactNode;
-    click: any;
+    click?: any;
 }
 
-const Button = ({ color, children, click }: Props) => {
+const Button = ({color, children, click}: Props) => {
     const [onMouseEnter, setOnMouseEnter] = useState(false);
 
     return (
@@ -71,12 +71,16 @@ const Button = ({ color, children, click }: Props) => {
                                 :
                                 '',
             }}
-            onClick={(e) => click(e)}
+            onClick={(e) => {
+                if (click) {
+                    click(e)
+                }
+            }}
             onMouseEnter={() => setOnMouseEnter(true)}
             onMouseLeave={() => setOnMouseEnter(false)}
         >
             {children}
-        </button >
+        </button>
     )
 }
 

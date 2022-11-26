@@ -93,40 +93,6 @@
     }
   }
 
-  .modal__inner__block {
-    padding: 20px;
-    background-color: #000;
-    color: #fff;
-    border-radius: 10px;
-
-    .modal__inner__block__row {
-      margin-top: 30px;
-      display: flex;
-      justify-content: space-evenly;
-
-      .modal__inner__block__btn {
-        font-family: 'SF Pro Display', sans-serif;
-        font-size: 16px;
-        font-weight: 600;
-        border: none;
-        background-color: #fff;
-        cursor: pointer;
-        outline: none;
-        padding: 5px 10px;
-        border-radius: 20px;
-        transition: .1s linear;
-        color: #000;
-        border: 2px solid #fff;
-
-        &:hover {
-          background-color: #000;
-          color: #fff;
-          transition: .1s linear;
-        }
-      }
-    }
-  }
-
   .burger {
     display: none;
   }

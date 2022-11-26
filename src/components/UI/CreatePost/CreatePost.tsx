@@ -1,12 +1,23 @@
 import classes from './CreatePost.module.scss';
+import {useContext, useState} from "react";
+import {Context} from "../../../index";
+import posts from "../../../store/posts";
 
-interface Props {
-    text: string;
-    setText: (text: string) => void;
-    createdPost: () => void;
-}
+const CreatePost = () => {
+    const {store} = useContext(Context);
+    const [text, setText] = useState('');
+    const createdPost = async () => {
+        if (text === '') {
+            return;
+        }
+        const newPost = {
+            userId: store.user.id,
+            text: text,
+        };
+        await posts.createPost(newPost.userId, newPost.text);
+        setText('');
+    }
 
-const CreatePost = ({ text, setText, createdPost }: Props) => {
     return (
         <div className={classes.create__block}>
             <textarea

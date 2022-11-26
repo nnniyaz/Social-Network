@@ -4,22 +4,16 @@ import AuthService from "../services/AuthService";
 import axios from "axios";
 import {AuthResponse} from "../models/response/AuthResponse";
 import {API_URL} from "../http";
-import {IPost} from "../models/IPost";
-import PostService from "../services/PostService";
+import UserService from "../services/UserService";
 
 export default class Store {
     user = {} as IUser;
     isAuth = false;
     isLoading = false;
 
-    posts = [] as IPost[];
-    userPosts = [] as IPost[];
-
     constructor() {
         makeAutoObservable(this);
     }
-
-    // ----------------- AUTH -----------------
 
     setAuth(bool: boolean) {
         this.isAuth = bool;
@@ -84,63 +78,30 @@ export default class Store {
         }
     }
 
-    // ----------------- POSTS -----------------
-
-    setPosts(posts: IPost[]) {
-        this.posts = posts;
-    }
-
-    setUserPosts(posts: IPost[]) {
-        this.userPosts = posts;
-    }
-
-    async createPost({userId, text}: { userId: string, text: string }) {
+    async updateUserInfo(userId: string, firstName: string, lastName: string, country: string, city: string) {
         try {
-            const response = await PostService.createPost({userId, text});
-            this.setPosts([...this.posts, response.data]);
-            this.setUserPosts([...this.userPosts, response.data]);
+            const response = await UserService.updateUserInfo(userId, firstName, lastName, country, city);
+            this.setUser(response.data.user);
         } catch (e) {
             // @ts-ignore
             console.log(e.response?.data?.message);
         }
     }
 
-    async editPost({postId, text}: { postId: string, text: string }) {
+    async updateUserEmail(userId: string, email: string) {
         try {
-            const response = await PostService.editPost({postId, text});
-            this.setPosts(this.posts.map(p => p._id === response.data._id ? response.data : p));
-            this.setUserPosts(this.userPosts.map(p => p._id === response.data._id ? response.data : p));
+            const response = await UserService.updateUserEmail(userId, email);
+            this.setUser(response.data.user);
         } catch (e) {
             // @ts-ignore
             console.log(e.response?.data?.message);
         }
     }
 
-    async deletePost(id: string) {
+    async updateUserPassword(userId: string, currentPassword: string, newPassword: string) {
         try {
-            const response = await PostService.deletePost(id);
-            this.setPosts(this.posts.filter(p => p._id !== id));
-            this.setUserPosts(this.userPosts.filter(p => p._id !== id));
-        } catch (e) {
-            // @ts-ignore
-            console.log(e.response?.data?.message);
-        }
-    }
-
-    async fetchUserPosts(userId: string) {
-        try {
-            const response = await PostService.fetchUserPosts(userId);
-            this.setUserPosts(response.data);
-        } catch (e) {
-            // @ts-ignore
-            console.log(e.response?.data?.message);
-        }
-    }
-
-    async fetchAllPosts() {
-        try {
-            const response = await PostService.fetchAllPosts();
-            this.setPosts(response.data);
+            const response = await UserService.updateUserPassword(userId, currentPassword, newPassword);
+            this.setUser(response.data.user);
         } catch (e) {
             // @ts-ignore
             console.log(e.response?.data?.message);

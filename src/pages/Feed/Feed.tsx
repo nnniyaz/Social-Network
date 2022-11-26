@@ -1,64 +1,43 @@
+import React, {Suspense} from "react";
 import CreatePost from 'components/UI/CreatePost/CreatePost';
 import Posts from 'components/UI/Posts/Posts';
-import {useContext, useEffect, useMemo} from 'react';
-import {useState} from 'react';
-import SearchBar from '../../components/UI/SearchBar/SearchBar';
 import classes from './Feed.module.scss';
 import {IPost} from "../../models/IPost";
-import {Context} from "../../index";
+import {Await, defer, useLoaderData} from "react-router-dom";
+import {observer} from "mobx-react-lite";
+import posts from "../../store/posts";
+import Loader from "../../components/UI/Loader/Loader";
 
-const Feed = () => {
-    const {store} = useContext(Context);
-    const [posts, setPosts] = useState<IPost[]>([]);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [text, setText] = useState('');
-
-    const [trigger, setTrigger] = useState(false);
-
-    const searchedPosts: IPost[] = useMemo(() => {
-        return [...posts].filter(post => post.userName.toLowerCase().includes(searchQuery.toLowerCase()));
-    }, [searchQuery, posts]);
-
-    const createdPost = () => {
-        if (text === '') {
-            return;
-        }
-
-        const newPost = {
-            userId: store.user.id,
-            text: text,
-        };
-
-        store.createPost(newPost).then(data => {
-            store.setPosts(store.posts);
-            setTrigger(!trigger);
-        });
-
-        setText('');
-    }
-
-    useEffect(() => {
-        store.fetchAllPosts().then(() => {
-            setPosts(store.posts);
-        });
-    }, [trigger]);
-
+const Feed = observer(() => {
+    const {posts} = useLoaderData() as { posts: IPost[] };
     return (
         <div className={classes.main}>
             <div className={classes.main__feed}>
-                <SearchBar
-                    value={searchQuery}
-                    onChange={(e: any) => setSearchQuery(e.target.value)}
-                />
+                <CreatePost/>
 
-                <CreatePost text={text} setText={setText} createdPost={createdPost}/>
-
-                <Posts
-                    searchedPosts={searchedPosts}
-                />
+                <Suspense fallback={<Loader/>}>
+                    <Await resolve={posts}>
+                        <Posts/>
+                    </Await>
+                </Suspense>
             </div>
         </div>
     );
+});
+
+const getAllPosts = async () => {
+    const res = posts.allPosts;
+    if (!res.length) {
+        const secondRes = await posts.fetchAllPosts();
+        return secondRes ? secondRes : [] as IPost[];
+    }
+    return res;
 }
 
-export default Feed;
+const FeedLoader = async () => {
+    return defer({
+        posts: getAllPosts(),
+    })
+}
+
+export {Feed, FeedLoader};

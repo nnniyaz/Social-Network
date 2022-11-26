@@ -9,6 +9,7 @@ const Login = () => {
     const [data, setData] = useState({email: '', password: '',});
     const {store} = useContext(Context);
 
+
     const login = (e: React.FormEvent) => {
         e.preventDefault();
         store.login(data.email, data.password).then(() => {

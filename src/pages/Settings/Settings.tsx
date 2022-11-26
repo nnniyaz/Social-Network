@@ -5,10 +5,13 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import classes from './Settings.module.scss';
 import {IUser} from "../../models/IUser";
 import {Context} from "../../index";
+import Modal from "../../components/UI/Modal/Modal";
+import LogoutModal from "../../components/UI/LogoutModal/LogoutModal";
 
 const Settings = () => {
     const navigate = useNavigate();
     const {store} = useContext(Context);
+    const [visible, setVisible] = useState<boolean>(false);
     const [user, setUser] = useState<IUser>(
         {
             id: store.user.id,
@@ -23,18 +26,21 @@ const Settings = () => {
         }
     );
 
-    const saveEmail = (e: any) => {
+    const saveEmail = async (e: any) => {
         e.preventDefault();
-        console.log('Email was saved');
+        await store.updateUserEmail(user.id, user.email);
     }
 
-    const savePassword = (e: any) => {
+    const savePassword = async (e: any) => {
         e.preventDefault();
         console.log('Password was saved');
     }
 
-    const logout = () => {
-        navigate('/login');
+    const handleLogout = async () => {
+        await store.logout();
+        setVisible(false);
+        localStorage.removeItem('token');
+        window.location.href = '/login';
     }
 
     return (
@@ -57,7 +63,7 @@ const Settings = () => {
                     </TabList>
 
                     <TabPanel selectedClassName={classes.tabpanel}>
-                        <form className={classes.content}>
+                        <form className={classes.content} onSubmit={saveEmail}>
                             <div className={classes.email}>
                                 <div className={classes.email__text}>Current email:</div>
                                 <div className={classes.email__main}>{`• ${user.email}`}</div>
@@ -66,6 +72,8 @@ const Settings = () => {
                             <label className={classes.labelWrapper}>
                                 <div className={classes.label}>New Email</div>
                                 <input
+                                    value={user.email}
+                                    onChange={e => setUser({...user, email: e.target.value})}
                                     placeholder='Email'
                                     className={classes.input}
                                     type={'email'}
@@ -73,12 +81,12 @@ const Settings = () => {
                             </label>
 
                             <div className={classes.footer__btn}>
-                                <Button color='green' click={saveEmail}>Save</Button>
+                                <Button color='green'>Save</Button>
                             </div>
                         </form>
-                        <div className={classes.logout__button}>
-                            <div className={classes.btn} onClick={() => logout()}>Logout</div>
-                        </div>
+                        {/*<div className={classes.logout__button}>*/}
+                        {/*    <div className={classes.btn} onClick={() => logout()}>Logout</div>*/}
+                        {/*</div>*/}
                     </TabPanel>
 
                     <TabPanel selectedClassName={classes.tabpanel}>
@@ -110,11 +118,15 @@ const Settings = () => {
                                 <Button color='green' click={saveEmail}>Save</Button>
                             </div>
                         </form>
-                        <div className={classes.logout__button}>
-                            <div className={classes.btn} onClick={() => logout()}>Logout</div>
-                        </div>
                     </TabPanel>
                 </Tabs>
+
+                <div className={classes.logout__button}>
+                    <div className={classes.btn} onClick={() => setVisible(true)}>Logout</div>
+                </div>
+
+                <LogoutModal visible={visible} setVisible={setVisible} handleLogout={handleLogout}/>
+
             </div>
             <div className={classes.author__rights}>
                 <div className={classes.author__rights__text}>© Niyaz Nassyrov | 2022</div>

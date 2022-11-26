@@ -1,27 +1,38 @@
 import Post from '../Post/Post';
 import classes from './Posts.module.scss';
 import {IPost} from "../../../models/IPost";
+import React, {useMemo, useState} from "react";
+import SearchBar from "../SearchBar/SearchBar";
+import {useAsyncValue} from "react-router-dom";
 
-interface Props {
-    searchedPosts: IPost[];
-}
-
-const Posts = ({searchedPosts}: Props) => {
+const Posts = () => {
+    const posts = useAsyncValue() as IPost[];
+    const [searchQuery, setSearchQuery] = useState('');
+    const searchedPosts: IPost[] = useMemo(() => {
+        return [...posts].filter(post => post.userName.toLowerCase().includes(searchQuery.toLowerCase()));
+    }, [searchQuery, posts]);
 
     return (
-        <div className={classes.main__feed__body}>
-            {
-                searchedPosts.length ? (
-                    searchedPosts.map(post => (
-                        <Post key={post._id} post={post}/>
-                    ))
-                ) : (
-                    <div className={classes.main__feed__body__empty}>
-                        <div className={classes.main__feed__body__empty__text}>No posts</div>
-                    </div>
-                )
-            }
-        </div>
+        <>
+            <SearchBar
+                value={searchQuery}
+                onChange={(e: any) => setSearchQuery(e.target.value)}
+            />
+
+            <div className={classes.main__feed__body}>
+                {
+                    searchedPosts.length ? (
+                        searchedPosts.map(post => (
+                            <Post key={post._id} post={post}/>
+                        ))
+                    ) : (
+                        <div className={classes.main__feed__body__empty}>
+                            <div className={classes.main__feed__body__empty__text}>No posts</div>
+                        </div>
+                    )
+                }
+            </div>
+        </>
     )
 }
 

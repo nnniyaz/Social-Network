@@ -4,6 +4,7 @@ import {useContext, useState} from "react";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import Modal from "../UI/Modal/Modal";
+import LogoutModal from "../UI/LogoutModal/LogoutModal";
 
 const setActive = ({isActive}: any) => isActive ? classes.nav__item__active : classes.nav__item
 
@@ -14,6 +15,7 @@ const Header = () => {
     const handleLogout = () => {
         store.logout();
         setVisible(false);
+        localStorage.removeItem('token');
         window.location.href = '/login';
     }
 
@@ -24,7 +26,7 @@ const Header = () => {
                 store.isAuth ? (
                     <div className={classes.nav}>
                         <NavLink to={'/'} className={setActive} end>Feed</NavLink>
-                        <NavLink to={'profile'} className={setActive}>Profile</NavLink>
+                        <NavLink to={`profile/${store.user.id}`} className={setActive}>Profile</NavLink>
                         <NavLink to={'settings'} className={setActive}>Settings</NavLink>
                         <div className={classes.nav__item} onClick={() => setVisible(true)}>Logout</div>
                     </div>
@@ -36,19 +38,7 @@ const Header = () => {
                 )
             }
 
-            <Modal visible={visible} setVisible={setVisible}>
-                <div className={classes.modal__inner__block}>
-                    <h2>Are you sure you want to logout?</h2>
-                    <div className={classes.modal__inner__block__row}>
-                        <button className={classes.modal__inner__block__btn} onClick={() => setVisible(false)}>
-                            Cancel
-                        </button>
-                        <button className={classes.modal__inner__block__btn} onClick={handleLogout}>
-                            Sign Out
-                        </button>
-                    </div>
-                </div>
-            </Modal>
+            <LogoutModal visible={visible} setVisible={setVisible} handleLogout={handleLogout}/>
         </div>
     );
 }
