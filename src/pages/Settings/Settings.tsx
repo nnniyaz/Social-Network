@@ -7,10 +7,15 @@ import {IUser} from "../../models/IUser";
 import {Context} from "../../index";
 import Modal from "../../components/UI/Modal/Modal";
 import LogoutModal from "../../components/UI/LogoutModal/LogoutModal";
+import Loader from "../../components/UI/Loader/Loader";
 
 const Settings = () => {
     const navigate = useNavigate();
     const {store} = useContext(Context);
+    const [loader, setLoader] = useState({
+        emailLoading: false,
+        passwordLoading: false,
+    });
     const [visible, setVisible] = useState<boolean>(false);
     const [user, setUser] = useState<IUser>(
         {
@@ -28,7 +33,11 @@ const Settings = () => {
 
     const saveEmail = async (e: any) => {
         e.preventDefault();
-        await store.updateUserEmail(user.id, user.email);
+        setLoader({...loader, emailLoading: true});
+        const res = await store.updateUserEmail(user.id, user.email);
+        if (res?.success) {
+            setLoader({...loader, emailLoading: false});
+        }
     }
 
     const savePassword = async (e: any) => {
@@ -80,13 +89,15 @@ const Settings = () => {
                                 />
                             </label>
 
-                            <div className={classes.footer__btn}>
-                                <Button color='green'>Save</Button>
+                            <div className={classes.footer__btn} style={{
+                                opacity: loader.emailLoading ? '0.5' : '1',
+                                transition: 'all 0.1s ease',
+                            }}>
+                                <Button color='green' disabled={!loader.emailLoading}>Save</Button>
                             </div>
+
+                            {loader.emailLoading && <Loader />}
                         </form>
-                        {/*<div className={classes.logout__button}>*/}
-                        {/*    <div className={classes.btn} onClick={() => logout()}>Logout</div>*/}
-                        {/*</div>*/}
                     </TabPanel>
 
                     <TabPanel selectedClassName={classes.tabpanel}>

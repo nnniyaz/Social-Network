@@ -92,6 +92,7 @@ export default class Store {
         try {
             const response = await UserService.updateUserEmail(userId, email);
             this.setUser(response.data.user);
+            return {success: true};
         } catch (e) {
             // @ts-ignore
             console.log(e.response?.data?.message);

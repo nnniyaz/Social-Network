@@ -5,9 +5,10 @@ interface Props {
     color: string;
     children: React.ReactNode;
     click?: any;
+    disabled?: boolean;
 }
 
-const Button = ({color, children, click}: Props) => {
+const Button = ({color, children, click, disabled}: Props) => {
     const [onMouseEnter, setOnMouseEnter] = useState(false);
 
     return (
@@ -19,13 +20,13 @@ const Button = ({color, children, click}: Props) => {
                         ?
                         onMouseEnter
                             ?
-                            'rgba(38, 125, 38, .8)'
+                            'transparent'
                             :
                             'rgb(38, 125, 38)'
                         :
                         (onMouseEnter && color === 'regular')
                             ?
-                            'black'
+                            'transparent'
                             : color === 'red'
                                 ?
                                 onMouseEnter
@@ -34,7 +35,7 @@ const Button = ({color, children, click}: Props) => {
                                     :
                                     'rgb(38, 125, 38)'
                                 :
-                                '',
+                                'black',
                 borderColor:
                     color === 'green'
                         ?
@@ -59,17 +60,21 @@ const Button = ({color, children, click}: Props) => {
                 color:
                     color === 'green'
                         ?
-                        'white'
+                        onMouseEnter
+                            ?
+                            'rgb(38, 125, 38)'
+                            :
+                            'white'
                         :
                         (onMouseEnter && color === 'regular')
                             ?
-                            'white'
+                            'black'
                             :
                             color === 'red'
                                 ?
                                 'white'
                                 :
-                                '',
+                                'white',
             }}
             onClick={(e) => {
                 if (click) {
@@ -78,6 +83,7 @@ const Button = ({color, children, click}: Props) => {
             }}
             onMouseEnter={() => setOnMouseEnter(true)}
             onMouseLeave={() => setOnMouseEnter(false)}
+            disabled={disabled}
         >
             {children}
         </button>
