@@ -30,6 +30,11 @@ const Settings = () => {
             createdAt: store.user.createdAt,
         }
     );
+    const [passwordValidation, setPasswordValidation] = useState({
+        currentPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
+    });
 
     const saveEmail = async (e: any) => {
         e.preventDefault();
@@ -42,7 +47,13 @@ const Settings = () => {
 
     const savePassword = async (e: any) => {
         e.preventDefault();
-        console.log('Password was saved');
+        setLoader({...loader, passwordLoading: true});
+        if (passwordValidation.newPassword === passwordValidation.confirmNewPassword) {
+            const res = await store.updateUserPassword(user.id, passwordValidation.currentPassword, passwordValidation.newPassword);
+            if (res?.success) {
+                setLoader({...loader, passwordLoading: false});
+            }
+        }
     }
 
     const handleLogout = async () => {
@@ -86,6 +97,7 @@ const Settings = () => {
                                     placeholder='Email'
                                     className={classes.input}
                                     type={'email'}
+                                    required
                                 />
                             </label>
 
@@ -93,7 +105,7 @@ const Settings = () => {
                                 opacity: loader.emailLoading ? '0.5' : '1',
                                 transition: 'all 0.1s ease',
                             }}>
-                                <Button color='green' disabled={!loader.emailLoading}>Save</Button>
+                                <Button color='green' disabled={loader.emailLoading}>Save</Button>
                             </div>
 
                             {loader.emailLoading && <Loader />}
@@ -101,33 +113,53 @@ const Settings = () => {
                     </TabPanel>
 
                     <TabPanel selectedClassName={classes.tabpanel}>
-                        <form className={classes.content}>
+                        <form className={classes.content} onSubmit={savePassword}>
                             <label className={classes.labelWrapper}>
                                 <div className={classes.label}>Current Password</div>
                                 <input
+                                    value={passwordValidation.currentPassword}
+                                    onChange={e => setPasswordValidation({...passwordValidation, currentPassword: e.target.value})}
                                     placeholder='Enter your current password'
                                     className={classes.input}
                                     type={'password'}
+                                    minLength={3}
+                                    maxLength={32}
+                                    required
                                 />
                             </label>
 
                             <label className={classes.labelWrapper}>
                                 <div className={classes.label}>New Password</div>
                                 <input
+                                    value={passwordValidation.newPassword}
+                                    onChange={e => setPasswordValidation({...passwordValidation, newPassword: e.target.value})}
                                     placeholder='Enter your new password'
                                     className={classes.input}
                                     type={'password'}
+                                    minLength={3}
+                                    maxLength={32}
+                                    required
                                 />
                                 <input
+                                    value={passwordValidation.confirmNewPassword}
+                                    onChange={e => setPasswordValidation({...passwordValidation, confirmNewPassword: e.target.value})}
                                     placeholder='Confirm your new password'
                                     className={classes.input}
                                     type={'password'}
+                                    minLength={3}
+                                    maxLength={32}
+                                    required
                                 />
                             </label>
 
-                            <div className={classes.footer__btn}>
-                                <Button color='green' click={saveEmail}>Save</Button>
+                            <div className={classes.footer__btn} style={{
+                                opacity: loader.emailLoading ? '0.5' : '1',
+                                transition: 'all 0.1s ease',
+                            }}>
+                                <Button color='green' disabled={loader.emailLoading}>Save</Button>
                             </div>
+
+                            {loader.passwordLoading && <Loader />}
                         </form>
                     </TabPanel>
                 </Tabs>

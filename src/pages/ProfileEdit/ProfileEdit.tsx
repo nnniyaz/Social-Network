@@ -27,12 +27,14 @@ const ProfileEdit = () => {
         navigate('/profile/' + user.id);
     }
 
-    const saveClick = (e: FormEvent) => {
+    const saveClick = async (e: FormEvent) => {
         e.preventDefault();
-
-
-
-        navigate('/profile/' + user.id);
+        const res = await store.updateUserInfo(user.id, user.firstName, user.lastName, user.country, user.city);
+        if (res?.success) {
+            navigate('/profile/' + user.id);
+        } else {
+            console.log(res);
+        }
     }
 
     return (
@@ -60,7 +62,7 @@ const ProfileEdit = () => {
                             placeholder="First Name"
                             className={classes.input}
                             type={'text'}
-                            minLength={1}
+                            minLength={3}
                             required
                         />
                     </label>
@@ -72,7 +74,7 @@ const ProfileEdit = () => {
                             placeholder="Last Name"
                             className={classes.input}
                             type={'text'}
-                            minLength={1}
+                            minLength={3}
                             required
                         />
                     </label>
@@ -84,7 +86,6 @@ const ProfileEdit = () => {
                             placeholder="Country"
                             className={classes.input}
                             type={'text'}
-                            minLength={1}
                             required
                         />
                     </label>
@@ -96,7 +97,6 @@ const ProfileEdit = () => {
                             placeholder="City"
                             className={classes.input}
                             type={'text'}
-                            minLength={1}
                             required
                         />
                     </label>

@@ -82,6 +82,7 @@ export default class Store {
         try {
             const response = await UserService.updateUserInfo(userId, firstName, lastName, country, city);
             this.setUser(response.data.user);
+            return {success: true};
         } catch (e) {
             // @ts-ignore
             console.log(e.response?.data?.message);
@@ -103,6 +104,7 @@ export default class Store {
         try {
             const response = await UserService.updateUserPassword(userId, currentPassword, newPassword);
             this.setUser(response.data.user);
+            return {success: true};
         } catch (e) {
             // @ts-ignore
             console.log(e.response?.data?.message);
