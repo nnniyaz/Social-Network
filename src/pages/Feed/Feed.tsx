@@ -8,11 +8,16 @@ import {observer} from "mobx-react-lite";
 import posts from "../../store/posts";
 import Loader from "../../components/UI/Loader/Loader";
 
-const Feed = observer(() => {
+const Feed = () => {
     const {posts} = useLoaderData() as { posts: IPost[] };
+    const logo = 'Q A U Y M';
     return (
         <div className={classes.main}>
             <div className={classes.main__feed}>
+                <div className={classes.main__header}>
+                    <h1>{logo}</h1>
+                </div>
+
                 <CreatePost/>
 
                 <Suspense fallback={<Loader/>}>
@@ -23,7 +28,7 @@ const Feed = observer(() => {
             </div>
         </div>
     );
-});
+};
 
 const getAllPosts = async () => {
     const res = posts.allPosts;

@@ -1,11 +1,9 @@
-@import url('http://fonts.cdnfonts.com/css/sf-pro-display');
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
-    font-family: 'SF Pro Display', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
@@ -44,6 +42,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: .1s linear;
 }
 
 .modal.entering {
@@ -65,7 +64,7 @@ body {
 }
 
 .modal__block {
-    width: fit-content;
+    width: 80%;
     height: fit-content;
     background-color: white;
     border-radius: 10px;

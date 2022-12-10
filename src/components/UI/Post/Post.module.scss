@@ -46,6 +46,15 @@
                 }
             }
         }
+
+        .post__content__option {
+            width: 20px;
+            height: 20px;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
 
     .post__content__paragraph {

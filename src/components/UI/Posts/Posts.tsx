@@ -9,7 +9,14 @@ const Posts = () => {
     const posts = useAsyncValue() as IPost[];
     const [searchQuery, setSearchQuery] = useState('');
     const searchedPosts: IPost[] = useMemo(() => {
-        return [...posts].filter(post => post.userName.toLowerCase().includes(searchQuery.toLowerCase()));
+        if (!searchQuery) return posts;
+        return [...posts].filter(
+            post =>
+                post.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                post.user.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                post.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                post.email.toLowerCase().includes(searchQuery.toLowerCase())
+        );
     }, [searchQuery, posts]);
 
     return (

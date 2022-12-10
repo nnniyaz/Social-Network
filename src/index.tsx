@@ -30,16 +30,25 @@ export const Context = createContext<State>({
 const router = createBrowserRouter(createRoutesFromElements(
     <Route element={<App/>}>
         <Route element={<RequireAuth/>}>
-            <Route index path='/' element={<Feed/>} loader={FeedLoader}/>
+            <Route index path="/" element={<Feed/>} loader={FeedLoader}/>
             <Route path="profile/:id" element={<Profile/>} loader={ProfileLoader}/>
             <Route path="profile/:id/edit" element={<ProfileEdit/>}/>
             <Route path="settings" element={<Settings/>}/>
+        </Route>
+
+        <Route path="admin">
+            <Route index element={''}/> {/* Admin login */}
+            <Route path="dashboard" element={''}/> {/* Admin Dashboard */}
+            <Route path="analytics" element={''}/> {/* Admin Analytics */}
+            <Route path="settings" element={''}/> {/* Admin Settings */}
         </Route>
 
         <Route element={<CheckAuth/>}>
             <Route index path="login" element={<Login/>}/>
             <Route path="signup" element={<Registration/>}/>
         </Route>
+
+        <Route path='*' element={''}/> {/* 404 page */}
     </Route>
 ))
 

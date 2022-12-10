@@ -145,6 +145,22 @@
             display: flex;
             justify-content: flex-end;
           }
+
+          .result {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            margin-top: 30px;
+            transition: .1s linear;
+
+            .result__text {
+              font-size: 16px;
+              font-weight: 300;
+              color: green;
+            }
+          }
         }
       }
     }

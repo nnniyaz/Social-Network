@@ -4,7 +4,7 @@ import {useContext, useState} from "react";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import Modal from "../UI/Modal/Modal";
-import LogoutModal from "../UI/LogoutModal/LogoutModal";
+import LogoutModal from "../UI/ModalContent/LogoutModal";
 
 const setActive = ({isActive}: any) => isActive ? classes.nav__item__active : classes.nav__item
 

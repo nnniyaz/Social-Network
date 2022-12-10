@@ -47,7 +47,7 @@ class Posts {
             const response = await PostService.deletePost(id);
             await this.fetchAllPosts();
             await this.fetchUserPosts(response.data.user);
-            return response.data;
+            return {success: true};
         } catch (e) {
             // @ts-ignore
             console.log(e.response?.data?.message);

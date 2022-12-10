@@ -4,10 +4,16 @@
   color: #fff;
   border-radius: 10px;
 
+  .modal__inner__block__title {
+    font-size: 19px;
+    font-weight: 600;
+    text-align: center;
+  }
+
   .modal__inner__block__row {
     margin-top: 30px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
 
     .modal__inner__block__btn {
       font-family: 'SF Pro Display', sans-serif;
